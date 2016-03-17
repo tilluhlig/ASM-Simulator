@@ -3219,27 +3219,42 @@ namespace ASM_Simulator
             if (sel >= Main.Count) return;
             if (!Order_Analyse_Init)
             {
-                dataGridView11.Rows.Clear();
-                int a = 108 - dataGridView11.Rows.Count;
-                if (a > 0) dataGridView11.Rows.Add(a);
-                for (int i = 0; i < 108; i++)
-                {
-                    dataGridView11.Rows[i].HeaderCell.Value = Help.Orders[i];
-                }
+              //  dataGridView11.Rows.Clear();
+              //  int a = 108 - dataGridView11.Rows.Count;
+              //  if (a > 0) dataGridView11.Rows.Add(a);
+              //  for (int i = 0; i < 108; i++)
+               // {
+               //     dataGridView11.Rows[i].HeaderCell.Value = Help.Orders[i];
+               // }
                 Order_Analyse_Init = true;
             }
 
             double fact = 1000L * 1000L * 1000L / Stopwatch.Frequency;
+            int b = 0;
             for (int i = 0; i < 108; i++)
             {
-                dataGridView11.Rows[i].Cells[0].Value = Main[sel].Count_Orders[i];
+
                 if (Main[sel].Watches != null && Main[sel].Count_Orders[i] != 0)
                 { // Main[sel].Watches[i].ElapsedTicks /  
+                    if (b >= dataGridView11.Rows.Count)
+                    {
+                        dataGridView11.Rows.Add(1);
+                    }
 
-                    dataGridView11.Rows[i].Cells[1].Value = Math.Round((double)(Main[sel].Watches[i].ElapsedTicks * fact) / Main[sel].Count_Orders[i], 4) + " ns";
+                    dataGridView11.Rows[b].HeaderCell.Value = Help.Orders[i];
+                    dataGridView11.Rows[b].Cells[0].Value = Main[sel].Count_Orders[i];
+                    dataGridView11.Rows[b].Cells[1].Value = Math.Round((double)(Main[sel].Watches[i].ElapsedTicks * fact) / Main[sel].Count_Orders[i], 4) + " ns";
+                    b++;
                 }
                 else
-                    dataGridView11.Rows[i].Cells[1].Value = "-";
+                {
+                    //dataGridView11.Rows[i].Cells[1].Value = "-";
+                    if (b < dataGridView11.Rows.Count)
+                    {
+                        dataGridView11.Rows.RemoveAt(dataGridView11.Rows.Count - 1);
+                    }
+                    //b++;
+                }
             }
         }
 
