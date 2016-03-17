@@ -99,6 +99,7 @@ namespace ASM_Simulator
 
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
+            Start_Progress(100);
             if (Projekt != "")
             {
                 if (sel < Main.Count)
@@ -110,6 +111,7 @@ namespace ASM_Simulator
             String dat = openFileDialog1.FileName;
             Main[sel].QuellDatei = dat;
 
+            Step(50);
             StreamReader datei = new StreamReader(dat);
             List<String> data = new List<String>();
             while (datei.Peek() != -1)
@@ -137,6 +139,7 @@ namespace ASM_Simulator
             reload_geraete_table();
             for (int i = 0; i < Main[sel].Timer.Count; i++) Main[sel].Timer[i].Reload_INC(Main[sel]);
             for (int i = 0; i < Main[sel].USART.Count; i++) Main[sel].USART[i].Reload_INC(Main[sel]);
+            Stop_Progress();
         }
 
         public String get(String[] data, String Bez)
@@ -328,7 +331,7 @@ namespace ASM_Simulator
 
         public void change_selected()
         {
-            if (sel >= Main.Count) return;
+            if (sel >= Main.Count || sel<0) return;
             //richTextBox1.Lines = Main[sel].Text.Lines;
             if (Main[sel].Text == null) return;
             richTextBox1.Rtf = Main[sel].Text.Rtf;
